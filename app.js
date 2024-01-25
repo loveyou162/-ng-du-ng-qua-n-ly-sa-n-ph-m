@@ -18,7 +18,7 @@ const loginRoutes = require("./routes/login");
 
 app.use(
   session({
-    secret: "your-secret-key",
+    secret: "hello",
     resave: false,
     saveUninitialized: false,
   })

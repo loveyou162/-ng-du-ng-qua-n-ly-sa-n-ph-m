@@ -49,27 +49,41 @@ exports.getSignUp = (req, res, next) => {
     path: "/register",
   });
 };
+
 exports.postSignUp = (req, res, next) => {
   const name = req.body.name;
   const email = req.body.email;
-  bcrypt.hash(req.body.password, 10).then((hashedPassword) => {
-    console.log(19, hashedPassword);
-    const user = new User({
-      name: name,
-      email: email,
-      password: hashedPassword,
-    });
-    user
-      .save()
-      .then((result) => {
-        console.log(result);
-        console.log("Create User Successfully!");
-        res.redirect("/login");
-      })
-      .catch((err) => {
-        console.log(err);
+  bcrypt
+    .hash(req.body.password, 10)
+    .then((hashedPassword) => {
+      // Kiểm tra xem đã tồn tại người dùng với email này chưa
+      return User.findOne({ email: email }).then((existingUser) => {
+        if (existingUser) {
+          // Nếu tồn tại người dùng, đưa ra thông báo lỗi và quay lại trang đăng ký
+          res.send("Email đã được sử dụng!");
+        } else {
+          // Nếu chưa tồn tại người dùng, tạo mới người dùng và lưu vào cơ sở dữ liệu
+          const user = new User({
+            name: name,
+            email: email,
+            password: hashedPassword,
+          });
+
+          return user.save();
+        }
       });
-  });
+    })
+    .then((result) => {
+      // Nếu người dùng đã được tạo thành công, chuyển hướng đến trang đăng nhập
+      console.log(result);
+      console.log("Tạo người dùng thành công!");
+      res.redirect("/login");
+    })
+    .catch((err) => {
+      // Xử lý lỗi
+      console.log(err.message);
+      res.redirect("/signup"); // Chuyển hướng trở lại trang đăng ký nếu có lỗi
+    });
 };
 exports.postLogout = (req, res) => {
   req.session.destroy((err) => {
@@ -79,4 +93,14 @@ exports.postLogout = (req, res) => {
       res.redirect("/login"); // Hoặc chuyển hướng đến trang khác
     }
   });
+};
+exports.getAllUser = (req, res) => {
+  User.find()
+    .then((user) => {
+      console.log(user);
+      return user;
+    })
+    .then((result) => {
+      res.json(result);
+    });
 };
