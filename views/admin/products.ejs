@@ -1,0 +1,47 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/product.css">
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+
+            <main>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>ImageUrl</th>
+                            <th>Price</th>
+                            <th>Description</th>
+                            <th>Date Created</th>
+                            <th>Date Updated</th>
+                            <th>Feature</th>
+                            </tr>
+                        </thead>
+                        <% if (prods.length > 0) { %>
+                            <% for (let product of prods) { %>
+                                <tr>
+                                    <td><%= product.title %></td>
+                                    <td><%= product.imageUrl %></td>
+                                    <td><%= product.price %></td>
+                                    <td><%= product.description %></td>
+                                    <td><%= product.dateCreate %></td>
+                                    <td><%= product.dateUpdate %></td>
+                                    <td>
+                                        <div class="card__actions">
+                                            <a href="/api/v1/admin/edit-product/<%= product._id %>?edit=true" class="btn">Edit</a>
+                                            <form action="/api/v1/admin/delete-product" method="POST">
+                                                <input type="hidden" value="<%= product._id %>" name="productId">
+                                                <button class="btn" type="submit">Delete</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <% } %>
+                            </table>
+                    <% } else { %>
+                        <h1>No Products Found!</h1>
+                <% } %>
+            </main>
+            <%- include('../includes/end.ejs') %>
+

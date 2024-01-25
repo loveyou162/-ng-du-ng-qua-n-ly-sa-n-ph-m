@@ -1,0 +1,55 @@
+.product-form {
+  width: 20rem;
+  max-width: 90%;
+  margin: auto;
+  display: block;
+}
+
+.product-item {
+  width: 20rem;
+  max-width: 95%;
+  margin: 1rem;
+}
+
+.product__title {
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.product__price {
+  text-align: center;
+  color: #4d4d4d;
+  margin-bottom: 0.5rem;
+}
+
+.product__description {
+  text-align: center;
+}
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid #444444;
+  text-align: left;
+  padding: 8px;
+}
+
+th {
+  text-align: center;
+}
+
+td {
+  max-width: 200px; /* Đặt giới hạn độ dài tối đa của ô là 200px */
+  overflow: hidden;
+  white-space: nowrap; /* Ngăn chặn ngắn dòng */
+  text-overflow: ellipsis; /* Hiển thị dấu chấm (...) khi dòng quá ngắn */
+  /* padding: 8px; Để có chỗ cho nội dung và giữ ô đẹp hơn */
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
